@@ -1,214 +1,31 @@
-HTML
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saturday Night Celebration</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-gold: #D4AF37;
-            --dark-bg: #1a1a1a;
-            --light-text: #f4f4f4;
-            --accent-gray: #2d2d2d;
-        }
+<script>
+    /**
+     * Note: The password and salt are Base64 encoded here 
+     * to prevent plain-text visibility in the source.
+     */
+    const _0x4a2b = "ODBmMWU4OGUyMjg5NjU4MDU1NjI3MjMwNDg4NmI4NjU1MmU2OTQ1MDkxNzYzNzhlOTA2OTYzNGUwNmJjODBmMQ=="; // HASH
+    const _0x112c = "c2hvXzMwX3BhcnR5"; // SALT
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
+    async function hashPassword(pw) {
+        const encoder = new TextEncoder();
+        // Decode the salt on the fly
+        const salt = atob(_0x112c);
+        const data = encoder.encode(pw + salt);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--light-text);
-            line-height: 1.6;
-        }
-
-        /* --- Navigation --- */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(26, 26, 26, 0.95);
-            padding: 1.5rem;
-            z-index: 1000;
-            border-bottom: 1px solid var(--accent-gray);
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-        }
-
-        nav a {
-            color: var(--light-text);
-            text-decoration: none;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: var(--primary-gold);
-        }
-
-        /* --- Layout Sections --- */
-        section {
-            min-height: 100vh;
-            padding: 100px 10% 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        h1, h2 {
-            font-family: 'Playfair Display', serif;
-            color: var(--primary-gold);
-            margin-bottom: 1.5rem;
-        }
-
-        h1 { font-size: 4rem; text-align: center; }
-        h2 { font-size: 2.5rem; border-bottom: 1px solid var(--accent-gray); padding-bottom: 0.5rem; }
-
-        /* --- Home Section --- */
-        #home {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&q=80&w=2070') center/cover;
-            align-items: center;
-            text-align: center;
-        }
-
-        .details-box {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 2rem;
-            border: 1px solid var(--primary-gold);
-            border-radius: 4px;
-        }
-
-        /* --- Food Section --- */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .menu-item {
-            background: var(--accent-gray);
-            padding: 1.5rem;
-            border-radius: 8px;
-            transition: transform 0.3s;
-        }
-
-        .menu-item:hover { transform: translateY(-5px); }
-        .menu-item h3 { color: var(--primary-gold); margin-bottom: 0.5rem; }
-
-        /* --- Transportation Section --- */
-        .transport-card {
-            background: #252525;
-            padding: 2rem;
-            border-left: 4px solid var(--primary-gold);
-            margin-bottom: 1rem;
-        }
-
-        /* --- FAQ Section --- */
-        .faq-item {
-            margin-bottom: 2rem;
-        }
-
-        .faq-item h4 {
-            color: var(--primary-gold);
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        /* --- Responsive --- */
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            nav { gap: 1rem; padding: 1rem; }
-            nav a { font-size: 0.75rem; }
-        }
-    </style>
-</head>
-<body>
-
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#food">Food</a>
-        <a href="#transport">Transport</a>
-        <a href="#faq">FAQ</a>
-    </nav>
-
-    <section id="home">
-        <div class="details-box">
-            <h1>Saturday Night</h1>
-            <p style="font-size: 1.5rem; letter-spacing: 2px;">APRIL 25 | 7:00 PM</p>
-            <p style="margin-top: 1rem;">Join us for an evening of great company, drinks, and music.</p>
-        </div>
-    </section>
-
-    <section id="food">
-        <h2>The Menu</h2>
-        <p>A curated selection of bites and refreshments.</p>
-        <div class="menu-grid">
-            <div class="menu-item">
-                <h3>Appetizers</h3>
-                <p>Artisanal cheese board, truffle popcorn, and seasonal bruschetta.</p>
-            </div>
-            <div class="menu-item">
-                <h3>Main Fare</h3>
-                <p>Wood-fired pizzas and gourmet sliders (Vegetarian options available).</p>
-            </div>
-            <div class="menu-item">
-                <h3>Drinks</h3>
-                <p>Craft cocktails, local wines, and a selection of Japanese whiskies.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="transport">
-        <h2>Getting Here</h2>
-        <div class="transport-card">
-            <h3>Rideshare</h3>
-            <p>We highly recommend using Uber or Lyft. Drop-off is right at the front entrance.</p>
-        </div>
-        <div class="transport-card">
-            <h3>Parking</h3>
-            <p>Street parking is available but limited. There is a public garage two blocks North on Emerson St.</p>
-        </div>
-        <div class="transport-card">
-            <h3>Public Transit</h3>
-            <p>We are a 10-minute walk from the local Caltrain station.</p>
-        </div>
-    </section>
-
-    <section id="faq">
-        <h2>FAQs</h2>
-        <div class="faq-item">
-            <h4>What is the dress code?</h4>
-            <p>Smart casual. Wear whatever makes you feel ready to celebrate!</p>
-        </div>
-        <div class="faq-item">
-            <h4>Can I bring a plus one?</h4>
-            <p>Please check your specific invitation or reach out to us directly so we can manage the headcount.</p>
-        </div>
-        <div class="faq-item">
-            <h4>Are pets allowed?</h4>
-            <p>While we love animals, we ask that you leave your furry friends at home for this evening.</p>
-        </div>
-        <div class="faq-item">
-            <h4>Should I bring anything?</h4>
-            <p>Your presence is enough! However, if you have a specific bottle of wine you'd love to share, feel free.</p>
-        </div>
-    </section>
-
-    <footer style="text-align: center; padding: 2rem; color: #666; font-size: 0.8rem;">
-        See you on Saturday!
-    </footer>
-
-</body>
-</html>
+    async function checkPassword() {
+        const input = document.getElementById('password-input').value;
+        const hashedInput = await hashPassword(input);
+        const errorMsg = document.getElementById('error-msg');
+        
+        // Decode the target hash for comparison
+        if (hashedInput === atob(_0x4a2b)) {
+            document.getElementById('password-overlay').classList.add('hidden');
+            document.getElementById('main-content').style.display = 'block';
+            document.body.style.overflow = 'auto';
+            sessionStorage.setItem('isShoAuthenticated', 'true');
+        } else {
+            errorMsg.innerText = "Incorrect password. Try again.";
